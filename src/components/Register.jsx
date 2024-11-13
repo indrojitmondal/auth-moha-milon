@@ -8,12 +8,16 @@ const Register = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [success, setSuccess]= useState(false);
+    const [successMessage, setSuccessMessage] =useState('');
     const handlePasswordShow = () => {
         setShowPassword(!showPassword);
     }
 
     const { createUser } = useContext(AuthContext);
     const navigate = useNavigate();
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        
     const handleRegister = e => {
         e.preventDefault();
 
@@ -22,15 +26,26 @@ const Register = () => {
         const password = e.target.password.value;
         const terms = e.target.terms.checked;
         console.log(name, email, password, terms);
+        
         setErrorMessage('');
+        setSuccessMessage('');
+        setSuccess(false);
         if(!terms){
             return;
+        }
+        if(!regex.test(password))
+        {
+              setErrorMessage('Password should be at least one upper case letter, one lower case letter, one digit, one special character and total length should be at least 8');
+              return;
         }
         createUser(email, password)
             .then(result => {
                 console.log(result);
                 e.target.reset();
-                navigate('/');
+                // navigate('/');
+                setSuccess(true);
+                setErrorMessage('');
+                setSuccessMessage('Successfully Registered.');
             })
             .catch(error => {
                 console.log('ERROR:', error.message);
@@ -85,6 +100,12 @@ const Register = () => {
                     {
                         errorMessage && <p className='text-red-600 ml-4 mb-4 mr-4 '> 
                           {errorMessage}
+
+                        </p>
+                    }
+                    {
+                        success && <p className='text-green-600 ml-4 mb-4 mr-4 '> 
+                          {successMessage}
 
                         </p>
                     }
