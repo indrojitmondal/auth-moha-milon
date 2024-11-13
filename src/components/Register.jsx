@@ -7,6 +7,7 @@ import { AiOutlineEye } from "react-icons/ai";
 const Register = () => {
 
     const [showPassword, setShowPassword] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const handlePasswordShow = () => {
         setShowPassword(!showPassword);
     }
@@ -15,11 +16,13 @@ const Register = () => {
     const navigate = useNavigate();
     const handleRegister = e => {
         e.preventDefault();
+
         const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
         const terms = e.target.terms.checked;
         console.log(name, email, password, terms);
+        setErrorMessage('');
         if(!terms){
             return;
         }
@@ -31,6 +34,7 @@ const Register = () => {
             })
             .catch(error => {
                 console.log('ERROR:', error.message);
+                setErrorMessage(error.message);
             })
 
 
@@ -78,6 +82,12 @@ const Register = () => {
                     <p className='ml-4 mb-4 mr-4'>
                         Already have an account ? Please <Link to={'/login'}>Login</Link>
                     </p>
+                    {
+                        errorMessage && <p className='text-red-600 ml-4 mb-4 mr-4 '> 
+                          {errorMessage}
+
+                        </p>
+                    }
                 </div>
             </div>
         </div>
