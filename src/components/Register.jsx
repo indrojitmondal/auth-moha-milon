@@ -10,11 +10,13 @@ const Register = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [success, setSuccess]= useState(false);
     const [successMessage, setSuccessMessage] =useState('');
+    // const [verificationMessage, setVerificationMessage] =useState('');
     const handlePasswordShow = () => {
         setShowPassword(!showPassword);
     }
 
     const { createUser } = useContext(AuthContext);
+    const {sendVerification} = useContext(AuthContext);
     const navigate = useNavigate();
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         
@@ -30,6 +32,7 @@ const Register = () => {
         setErrorMessage('');
         setSuccessMessage('');
         setSuccess(false);
+        // setVerificationMessage('');
         if(!terms){
             return;
         }
@@ -43,12 +46,21 @@ const Register = () => {
                 console.log(result);
                 e.target.reset();
                 // navigate('/');
+                // send verification email address 
+                sendVerification()
+                .then(()=>{
+                    // console.log('Verification email send');
+                   // setVerificationMessage('Verification email send');
+                })
+
+               
+
                 setSuccess(true);
                 setErrorMessage('');
-                setSuccessMessage('Successfully Registered.');
+                setSuccessMessage('Successfully Registered and Send email verification. Please verify!');
             })
             .catch(error => {
-                console.log('ERROR:', error.message);
+               // console.log('ERROR:', error.message);
                 setErrorMessage(error.message);
             })
 
@@ -109,6 +121,13 @@ const Register = () => {
 
                         </p>
                     }
+                      {/* {
+                        verificationMessage && <p className='text-black ml-4 mb-4 mr-4 '> 
+                          {verificationMessage}
+
+                        </p>
+                    } */}
+
                 </div>
             </div>
         </div>

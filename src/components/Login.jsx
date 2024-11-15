@@ -10,23 +10,33 @@ const Login = () => {
     const navigate = useNavigate();
     const {signInUser,signInWithGoogle} = useContext(AuthContext);
     const [showPassword, setShowPassword]= useState(false);
+    const [loginError, setLoginError]= useState('');
     const handlePasswordShow = ()=>{
         setShowPassword(!showPassword);
     }
     const handleLogIn = (e)=>{
         e.preventDefault();
+        setLoginError('');
         const email = e.target.email.value;
         console.log(email);
         const password = e.target.password.value;
         console.log(password);
         signInUser(email, password)
         .then( result=>{
-            console.log(result.user);
-            e.target.reset();
+            //console.log(result.user);
+            if(!result.user.emailVerification)
+            {
+                setLoginError('Please verify your email address');
+            }
+            else{
+                
             navigate('/');
+            e.target.reset();
+            }
         })
         .catch(error =>{
-            console.log('ERROR: ', error.message);
+           // console.log('ERROR: ', error.message);
+            setLoginError(error.message)
         })
 
     }
@@ -34,15 +44,17 @@ const Login = () => {
       
         signInWithGoogle()
         .then( result=>{
-            console.log(result)
+           // console.log(result)
             navigate('/');
         })
         .catch( error =>{
-            console.log('ERROR: ', error.message);
+            // console.log('ERROR: ', error.message);
+            setLoginError(error.message);
         })
     }
     return (
         <div className="hero bg-base-200 ">
+            
             <div className="hero-content flex-col ">
                 <div className="text-center lg:text-left">
                     <h1 className="text-3xl font-bold">Login now!</h1>
@@ -77,6 +89,13 @@ const Login = () => {
                         <button onClick={handleGoogleSignIn}
                          className='btn btn-ghost'>Google</button>
                     </p>
+
+                    {
+                        loginError && <p className='text-red-600 ml-4 mb-4 mr-4 '> 
+                          {loginError}
+
+                        </p>
+                    }
                 </div>
             </div>
         </div>
