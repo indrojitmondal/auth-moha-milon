@@ -10,4 +10,4 @@ Currently, two official plugins are available:
 
 # Firebase Live site
 
-<a href=" https://auth-moha-milon-aad56.web.app">Visit the site</a>
+<a href="https://auth-moha-milon-aad56.web.app">Visit the site</a>
