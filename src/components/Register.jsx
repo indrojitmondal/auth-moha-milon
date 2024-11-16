@@ -12,34 +12,13 @@ const Register = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [success, setSuccess] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
-    // const [verificationMessage, setVerificationMessage] =useState('');
+
 
     
     const { createUser, sendVerification, imageUrl, setImageUrl } = useContext(AuthContext);
-  
+
    
-    //   useEffect( ()=>{
-
-    
-
-    //     console.log('check', imageUrl);
-    //   },[]);
-        
-  
-    // const handleImageUpload = (event) => {
-    //     const file = event.target.files[0]; // Get the uploaded file
-    //     if (file) {
-    //         const url = URL.createObjectURL(file); 
-    //         console.log(url);
-          
-         
-
-    //             setImageUrl(url); // Set the URL to the state
-    //             console.log(imageUrl);
-
-           
-    //     }
-    // };
+   
     const handlePasswordShow = () => {
         setShowPassword(!showPassword);
     }
@@ -67,7 +46,7 @@ const Register = () => {
        
         console.log(name, email, password, terms, photo);
 
-        console.log(imageUrl);
+      
 
 
      
@@ -98,9 +77,10 @@ const Register = () => {
                 const profile= {
                     displayName: name,
                     email: email,
-                    photoURL: imageUrl,
+                    photoURL: photo,
                 }
                 console.log(profile);
+          
 
                 updateProfile(auth.currentUser, profile)
                 .then( ()=>{
@@ -157,7 +137,7 @@ const Register = () => {
                                 <span className="label-text">Password</span>
                             </label>
                             <input type={showPassword ? 'text' : 'password'} name='password' placeholder="password" className="input input-bordered" required />
-                            <button onClick={handlePasswordShow} className='absolute right-4 top-12'> {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}  </button>
+                            <button type='button' onClick={handlePasswordShow} className='absolute right-4 top-12'> {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}  </button>
 
                         </div>
 

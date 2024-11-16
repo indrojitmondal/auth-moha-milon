@@ -9,9 +9,11 @@ const AuthProvider = ({children}) => {
 
     const name= 'Sagor er Nodi';
 
-    const [user,setUser]= useState([]);
+    const [user,setUser]= useState(null);
     const [loading, setLoading]= useState(true);
     const [imageUrl, setImageUrl] = useState('');
+
+   
 
   
 
@@ -39,10 +41,14 @@ const AuthProvider = ({children}) => {
     useEffect( ()=>{
 
         const unSubscribe= onAuthStateChanged(auth, currentUser =>{
-           console.log('Current User: ', currentUser);
-          if(currentUser?.emailVerified)
+        //    console.log('Current User: ', currentUser);
+        //    console.log('ProviderId:', currentUser.providerData[0].providerId)
+           let providerId= currentUser?.providerData[0].providerId;
+         if(currentUser?.emailVerified || providerId=='google.com'){
             setUser(currentUser);
             setLoading(false);
+
+         }
         })
         return (()=>{
             unSubscribe(); // cleanup 
@@ -65,13 +71,14 @@ const AuthProvider = ({children}) => {
         name,
         user,
         setUser,
-        loading,
+        loading, setLoading,
         createUser,
         signInWithGoogle,
         signInUser,
         signOutUser,
         sendVerification,
         imageUrl, setImageUrl,
+        
     }
     return (
        <AuthContext.Provider value={authInfo}>

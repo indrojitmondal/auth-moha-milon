@@ -8,10 +8,12 @@ const Navbar = () => {
     const { user, setUser, signOutUser } = useContext(AuthContext);
 
     const {imageUrl, setImageUrl}= useContext(AuthContext);
+ 
 
     // console.log(authInformation);
     // console.log(name);
     // console.log(user.photoURL);
+    console.log(user);
     const links = <>
         <li><NavLink to={'/'}>Home</NavLink></li>
         <li><NavLink to={'/login'}>Login</NavLink></li>
@@ -32,6 +34,7 @@ const Navbar = () => {
 
                 console.log('Successfully Logged Out');
                setUser('');
+             
             })
             .catch((error) => {
                 console.log('ERROR: ', error.message);
@@ -77,7 +80,8 @@ const Navbar = () => {
             </div>
             <div className="navbar-end">
                 {
-                    user ? <div className='flex gap-2 items-center'>
+                     user?
+                     <div className='flex gap-2 items-center'>
                          <div className="avatar">
                             <div className="w-10 h-10 rounded-full">
                                 <img src={user.photoURL} />
