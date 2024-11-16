@@ -9,14 +9,18 @@ const AuthProvider = ({children}) => {
 
     const name= 'Sagor er Nodi';
 
-    const [user,setUser]= useState(null);
+    const [user,setUser]= useState([]);
     const [loading, setLoading]= useState(true);
+    const [imageUrl, setImageUrl] = useState('');
+
+  
 
     const createUser = (email, password)=>{
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
     const signInWithGoogle = ()=>{
+        setLoading(true);
         return signInWithPopup(auth, googleProvider);
 
     }
@@ -36,6 +40,7 @@ const AuthProvider = ({children}) => {
 
         const unSubscribe= onAuthStateChanged(auth, currentUser =>{
            console.log('Current User: ', currentUser);
+          if(currentUser?.emailVerified)
             setUser(currentUser);
             setLoading(false);
         })
@@ -59,12 +64,14 @@ const AuthProvider = ({children}) => {
     const authInfo ={
         name,
         user,
+        setUser,
         loading,
         createUser,
         signInWithGoogle,
         signInUser,
         signOutUser,
         sendVerification,
+        imageUrl, setImageUrl,
     }
     return (
        <AuthContext.Provider value={authInfo}>

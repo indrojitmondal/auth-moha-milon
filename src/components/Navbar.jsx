@@ -1,38 +1,47 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../providers/AuthProvider';
 
 const Navbar = () => {
 
     // const authInformation = useContext(AuthContext);
-    const {user, signOutUser} = useContext(AuthContext);
+    const { user, setUser, signOutUser } = useContext(AuthContext);
+
+    const {imageUrl, setImageUrl}= useContext(AuthContext);
 
     // console.log(authInformation);
     // console.log(name);
-    const links= <>
+    // console.log(user.photoURL);
+    const links = <>
         <li><NavLink to={'/'}>Home</NavLink></li>
         <li><NavLink to={'/login'}>Login</NavLink></li>
         <li><NavLink to={'/register'}>Register</NavLink></li>
         {
             user && <>
-            <li><NavLink to={'/orders'}>Orders</NavLink></li>
-            <li><NavLink to={'/profile'}>Profile</NavLink></li>
-            </> 
+                <li><NavLink to={'/orders'}>Orders</NavLink></li>
+                <li><NavLink to={'/profile'}>Profile</NavLink></li>
+            </>
         }
-                        
-       
-        </>
 
-        const handleLogOut = ()=>{
-            signOutUser()
-            .then(()=>{
+
+    </>
+
+    const handleLogOut = () => {
+        signOutUser()
+            .then(() => {
+
                 console.log('Successfully Logged Out');
-            } )
-            .catch( (error)=>{
+               setUser('');
+            })
+            .catch((error) => {
                 console.log('ERROR: ', error.message);
             })
-        }
-     
+    }
+
+    // useEffect( ()=>{
+    //     setImageUrl('');
+    // },[handleLogOut]);
+
 
     return (
         <div className="navbar bg-base-100">
@@ -55,8 +64,8 @@ const Navbar = () => {
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        
-                      {links}
+
+                        {links}
                     </ul>
                 </div>
                 <a className="btn btn-ghost text-xl">DaisyUI</a>
@@ -68,12 +77,20 @@ const Navbar = () => {
             </div>
             <div className="navbar-end">
                 {
-                    user? <>
-                     <span>{user.email}</span>
-                     <button onClick={handleLogOut} className='btn'>Log Out</button> 
-                    </> : <Link to={'/login'}>Login</Link>
+                    user ? <div className='flex gap-2 items-center'>
+                         <div className="avatar">
+                            <div className="w-10 h-10 rounded-full">
+                                <img src={user.photoURL} />
+                            </div>
+                        </div>
+                        <span>{user?.email}</span>
+                        <button onClick={handleLogOut} className='btn'>Log Out</button>
+                       </div> : <div>
+                       
+                        <Link to={'/login'}>Login</Link>
+                    </div>
                 }
-                
+
             </div>
         </div>
     );
