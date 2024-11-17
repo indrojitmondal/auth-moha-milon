@@ -10,7 +10,7 @@ import { sendPasswordResetEmail, updateProfile } from 'firebase/auth';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { signInUser, signInWithGoogle, signInWithFacebook } = useContext(AuthContext);
+    const { signInUser, signInWithGoogle } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const [loginError, setLoginError] = useState('');
     const emailRef = useRef();
@@ -88,32 +88,7 @@ const Login = () => {
             })
     }
 
-    const handleFacebookSignIn = () => {
-
-        signInWithFacebook()
-            .then(result => {
-                // console.log(result)
-                 navigate('/');
-
-                setLoginError('');
-
-                //   console.log("Updated: ",result.user);
-                  setUser(result.user);
-
-                  setLoading(false);
-
-             
-
-
-                updateProfile(auth.currentUser, profile)
-                   
-
-            })
-            .catch(error => {
-                // console.log('ERROR: ', error.message);
-                setLoginError(error.message);
-            })
-    }
+    
    
 
     const handleForgetPassword = () => {
@@ -179,8 +154,7 @@ const Login = () => {
                         <button onClick={handleGoogleSignIn}
                             className='btn btn-ghost'>Google</button>
 
-                          <button onClick={handleFacebookSignIn}
-                            className='btn btn-ghost'>Facebook</button>
+                          
                     </p>
 
                     {
