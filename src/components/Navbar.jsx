@@ -13,7 +13,7 @@ const Navbar = () => {
     // console.log(authInformation);
     // console.log(name);
     // console.log(user.photoURL);
-    console.log(user);
+    // console.log(user);
     const links = <>
         <li><NavLink to={'/'}>Home</NavLink></li>
         <li><NavLink to={'/login'}>Login</NavLink></li>
@@ -32,12 +32,12 @@ const Navbar = () => {
         signOutUser()
             .then(() => {
 
-                console.log('Successfully Logged Out');
+                // console.log('Successfully Logged Out');
                setUser('');
              
             })
             .catch((error) => {
-                console.log('ERROR: ', error.message);
+                // console.log('ERROR: ', error.message);
             })
     }
 

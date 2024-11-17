@@ -10,7 +10,7 @@ import { sendPasswordResetEmail, updateProfile } from 'firebase/auth';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { signInUser, signInWithGoogle } = useContext(AuthContext);
+    const { signInUser, signInWithGoogle, signInWithFacebook } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const [loginError, setLoginError] = useState('');
     const emailRef = useRef();
@@ -28,12 +28,12 @@ const Login = () => {
         e.preventDefault();
         //setLoginError('');
         const email = e.target.email.value;
-        console.log(email);
+        // console.log(email);
         const password = e.target.password.value;
-        console.log(password);
+        // console.log(password);
         signInUser(email, password)
             .then(result => {
-                console.log('Hello....', result.user);
+                // console.log('Hello....', result.user);
                 if (!result.user.emailVerified) {
 
                     setLoginError('Please verify your email address');
@@ -42,7 +42,7 @@ const Login = () => {
 
                     setUser(result.user);
 
-                    console.log(user);
+                    // console.log(user);
 
                     navigate('/');
                     e.target.reset();
@@ -65,12 +65,39 @@ const Login = () => {
 
         signInWithGoogle()
             .then(result => {
-                console.log(result)
+                // console.log(result)
                  navigate('/');
 
                 setLoginError('');
 
-                  console.log("Updated: ",result.user);
+                //   console.log("Updated: ",result.user);
+                  setUser(result.user);
+
+                  setLoading(false);
+
+             
+
+
+                updateProfile(auth.currentUser, profile)
+                   
+
+            })
+            .catch(error => {
+                // console.log('ERROR: ', error.message);
+                setLoginError(error.message);
+            })
+    }
+
+    const handleFacebookSignIn = () => {
+
+        signInWithFacebook()
+            .then(result => {
+                // console.log(result)
+                 navigate('/');
+
+                setLoginError('');
+
+                //   console.log("Updated: ",result.user);
                   setUser(result.user);
 
                   setLoading(false);
@@ -93,7 +120,7 @@ const Login = () => {
 
 
         const email = emailRef.current.value;
-        console.log('Forget email:', email);
+        // console.log('Forget email:', email);
         if (!email) {
             setLoginError('Please provide a valid email address.')
         }
@@ -147,8 +174,13 @@ const Login = () => {
                         New to this website ? Please <Link to={'/register'}>Register</Link>
                     </p>
                     <p>
+                        <h2 className='font-bold ml-4'>Login with</h2>
+            
                         <button onClick={handleGoogleSignIn}
                             className='btn btn-ghost'>Google</button>
+
+                          <button onClick={handleFacebookSignIn}
+                            className='btn btn-ghost'>Facebook</button>
                     </p>
 
                     {

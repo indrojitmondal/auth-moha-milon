@@ -37,14 +37,14 @@ const Register = () => {
         const photo = e.target.photo.value;
         const terms = e.target.terms.checked;
 
-        console.log(photo);
+        // console.log(photo);
 
         setImageUrl(photo);
       
 
           
        
-        console.log(name, email, password, terms, photo);
+        // console.log(name, email, password, terms, photo);
 
       
 
@@ -79,7 +79,7 @@ const Register = () => {
                     email: email,
                     photoURL: photo,
                 }
-                console.log(profile);
+                // console.log(profile);
           
 
                 updateProfile(auth.currentUser, profile)
@@ -90,7 +90,7 @@ const Register = () => {
                     setErrorMessage(error.errorMessage);
                 })
 
-                console.log(result);
+                // console.log(result);
 
 
 
